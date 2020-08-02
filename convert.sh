@@ -3,7 +3,7 @@
 # converter.sh
 
 # Declare the binary path of the converter
-januspprec_binary=/opt/janus/bin/janus-pp-rec
+januspprec_binary=janus-pp-rec
 
 # Contains the prefix of the recording session of janus e.g
 session_prefix="$1"
