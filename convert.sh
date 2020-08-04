@@ -11,7 +11,7 @@ output_file="$2"
 
 # Create temporary files that will store the individual tracks (audio and video)
 tmp_video=/tmp/mjr-$RANDOM.webm
-tmp_audio=/tmp/mjr-$RANDOM.aac
+tmp_audio=/tmp/mjr-$RANDOM.opus
 
 echo "Converting mjr files to individual tracks ..."
 $januspprec_binary $session_prefix-video.mjr $tmp_video
