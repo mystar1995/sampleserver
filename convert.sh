@@ -10,7 +10,7 @@ session_prefix="$1"
 output_file="$2"
 
 # Create temporary files that will store the individual tracks (audio and video)
-tmp_video=/tmp/mjr-$RANDOM.h264
+tmp_video=/tmp/mjr-$RANDOM.webm
 tmp_audio=/tmp/mjr-$RANDOM.opus
 
 echo "Converting mjr files to individual tracks ..."
@@ -19,6 +19,6 @@ $januspprec_binary $session_prefix-audio.mjr $tmp_audio
 
 echo "Merging audio track with video ..."
 
-ffmpeg -i $tmp_audio -i $tmp_video  -c:v h264 -c:a aac -strict -2 -filter_complex "transpose=1" $output_file
+ffmpeg -i $tmp_audio -i $tmp_video  -c:v copy -c:a opus -strict -2 -filter_complex "transpose=1" $output_file
 
 echo "Done !"
