@@ -19,6 +19,6 @@ $januspprec_binary $session_prefix-audio.mjr $tmp_audio
 
 echo "Merging audio track with video ..."
 
-ffmpeg -i $tmp_audio -i $tmp_video  -c:v copy -c:a opus -strict experimental $output_file
+ffmpeg -i $tmp_audio -i $tmp_video  -c:v copy -c:a aac -strict experimental $output_file
 
 echo "Done !"
