@@ -21,6 +21,5 @@ echo "Merging audio track with video ..."
 
 ffmpeg -i $tmp_video -i $tmp_audio  -c:v copy -c:a aac -strict experimental $output_file
 
-ffmpeg -i $output_file -vf "transpose=1" -codec a copy $output_file
 
 echo "Done !"
