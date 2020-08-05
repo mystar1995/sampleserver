@@ -19,7 +19,7 @@ $januspprec_binary $session_prefix-audio.mjr $tmp_audio
 
 echo "Merging audio track with video ..."
 
-ffmpeg -i $tmp_audio -i $tmp_video -filter_complex "transpose=2" -map 0:a -c:a aac -strict experimental $output_file
+ffmpeg -i $tmp_audio -i $tmp_video -map 0:a -c:a aac -strict experimental $output_file
 
 rm -rf $tmp_audio
 rm -rf $tmp_video
