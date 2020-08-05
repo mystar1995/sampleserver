@@ -21,5 +21,9 @@ echo "Merging audio track with video ..."
 
 ffmpeg -i $tmp_audio -i $tmp_video -c:v h264 -c:a aac -strict experimental $output_file
 
+rm -rf $tmp_audio
+rm -rf $tmp_video
+rm -rf $session_prefix-audio.mjr
+rm -rf $session_prefix-video.mjr
 
 echo "Done !"
