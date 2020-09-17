@@ -3,7 +3,7 @@ var app = express();
 var bodyparser = require('body-parser');
 const cors = require('cors');
 const {exec} = require('child_process');
-const absolute_url = "/opt/janus/share/janus/recordings/"
+const absolute_url = "/opt/janus/share/janus/recordings/";
 
 app.use(bodyparser.json({
     urlencoded:false
@@ -31,6 +31,14 @@ app.get("/convert",function(req,res){
 	});
 })
 
-app.listen(5000, () => {
+const httpserver = require('http').createServer(app);
+
+const io = require('socket.io')(httpserver);
+
+io.on('connected',socket=>{
+    console.log('connected');
+})
+
+httpserver.listen(5000, () => {
     console.log('HTTP Server running on port 5000');
 });
