@@ -17,6 +17,8 @@ echo "Converting mjr files to individual tracks ..."
 $januspprec_binary $session_prefix-video.mjr $tmp_video
 $januspprec_binary $session_prefix-audio.mjr $tmp_audio
 
+rm -rf $session_prefix-record.mp4
+
 echo "Merging audio track with video ..."
 
 ffmpeg -i $tmp_audio -i $tmp_video -c:v h264 -c:a aac -strict experimental $output_file
