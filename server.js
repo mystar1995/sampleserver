@@ -35,8 +35,34 @@ const httpserver = require('http').createServer(app);
 
 const io = require('socket.io')(httpserver);
 
-io.on('connected',socket=>{
+io.on('connect',socket=>{
     console.log('connected');
+
+    socket.on('subscribe',function(data){
+        console.log(data);
+        socket.room = data.room;
+        socket.connected = true;
+        io.emit('subscribe',{room:data.room});
+    })
+
+    socket.on('unsubscribe',function(data){
+        console.log(data);
+        io.emit('unsubscribe',{room:data.room});
+    })
+
+    socket.on('disconnect',function(){
+        if(socket.room)
+        {
+            socket.connected = false;
+            io.emit('unsubscribe',{room:socket.room});    
+        }
+        
+    })
+
+    socket.on('reactionchange',function(data){
+        console.log(data);
+        io.emit('reactionchange',data);
+    })
 })
 
 httpserver.listen(5000, () => {
