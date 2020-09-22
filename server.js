@@ -25,9 +25,9 @@ app.use((req, res, next) => {
 app.use(express.static('/opt/janus/share/janus/recordings'));
 
 app.get("/convert",function(req,res){
-    console.log("sudo bash convert.sh " + absolute_url  + req.query.filename + " " + absolute_url + req.query.filename + "-record.mp4");
-	exec("sudo bash convert.sh " + absolute_url  + req.query.filename + " " + absolute_url + req.query.filename + "-record.mp4",(err,stdout,stderr)=>{
-	console.log(err);
+    console.log("sudo bash convert.sh " + absolute_url  + req.query.filename + " " + absolute_url + req.query.convertname + "-record.mp4");
+	exec("sudo bash convert.sh " + absolute_url  + req.query.filename + " " + absolute_url + req.query.convertname + "-record.mp4",(err,stdout,stderr)=>{
+
 	});
 })
 
