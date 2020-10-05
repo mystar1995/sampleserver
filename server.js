@@ -53,9 +53,13 @@ app.get("/getfile",function(req,res){
 
         client.files.getDownloadURL(req.query.fileid).then(downloadurl=>{
             res.redirect(downloadurl);
-        }).catch(err=>console.log(err));
+        }).catch(err=>res.send(err));
 
         // res.redirect('https://api.box.com/2.0/files/' + req.query.fileid + '/content?access_token=' + config.developer_token);
+    }
+    else
+    {
+        res.send({success:false});
     }
 })
 
