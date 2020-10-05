@@ -4,6 +4,16 @@ var bodyparser = require('body-parser');
 const cors = require('cors');
 const {exec} = require('child_process');
 const absolute_url = "/opt/janus/share/janus/recordings/";
+const BoxSDK = require('box-node-sdk');
+const config = require('./config.json');
+var request = require('request');
+
+var sdk = new BoxSDK({
+    clientID:config.client_id,
+    clientSecret:config.client_secret
+});
+
+var client = sdk.getBasicClient(config.developer_token);
 
 app.use(bodyparser.json({
     urlencoded:false
@@ -29,6 +39,24 @@ app.get("/convert",function(req,res){
 	exec("sudo bash convert.sh " + absolute_url  + req.query.filename + " " + absolute_url + req.query.convertname + "-record.mp4",(err,stdout,stderr)=>{
 
 	});
+})
+
+app.get("/getfile",function(req,res){
+    if(req.query.fileid)
+    {
+        // client.files.getReadStream(req.query.fileid,null,function(error,stream){
+        //     if(error){
+        //         console.log(error);
+        //     }
+        //     res.send(stream);
+        // })
+
+        client.files.getDownloadURL(req.query.fileid).then(downloadurl=>{
+            res.redirect(downloadurl);
+        }).catch(err=>console.log(err));
+
+        // res.redirect('https://api.box.com/2.0/files/' + req.query.fileid + '/content?access_token=' + config.developer_token);
+    }
 })
 
 const httpserver = require('http').createServer(app);
