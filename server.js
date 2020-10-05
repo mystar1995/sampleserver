@@ -13,7 +13,7 @@ var sdk = new BoxSDK({
     clientSecret:config.client_secret
 });
 
-var client = sdk.getBasicClient(config.developer_token);
+var client = sdk.getAppAuthClient('user','13950271693');
 
 app.use(bodyparser.json({
     urlencoded:false
@@ -44,6 +44,25 @@ app.get("/convert",function(req,res){
 app.get("/getfile",function(req,res){
     if(req.query.fileid)
     {
+        var authorization_url = sdk.getAuthorizeURL({
+            response_type: 'code'
+        });
+
+        // var client = sdk.getAppUserTokens("13950271693",null,function(err,response){
+        //     res.send(response);
+        // })
+
+        //res.send(authorization_url);
+        // request.post('https://api.box.com/oauth2/token/',{headers:{"Content-Type":'application/x-www-form-urlencoded'},formData:{"client_id":config.client_id,'client_secret':config.client_secret,"grant_type":'authorization_code'}},function(err,response,body){
+        //     if(!err)
+        //     {
+        //         res.send(body);
+        //     }
+        //     else
+        //     {
+        //         res.send(err);
+        //     }
+        // })
         // client.files.getReadStream(req.query.fileid,null,function(error,stream){
         //     if(error){
         //         console.log(error);
