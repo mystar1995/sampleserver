@@ -7,13 +7,16 @@ const absolute_url = "/opt/janus/share/janus/recordings/";
 const BoxSDK = require('box-node-sdk');
 const config = require('./config.json');
 var request = require('request');
+var path = require('path');
+var fs = require('fs');
+var crypto = require('crypto');
+var jwt = require('jsonwebtoken');
 
-var sdk = new BoxSDK({
-    clientID:config.client_id,
-    clientSecret:config.client_secret
-});
+var sdk = new BoxSDK(config.boxAppSettings);
 
-var client = sdk.getAppAuthClient('user','13950271693');
+//var sdk = BoxSDK.getPreconfiguredInstance(config);
+var client = sdk.getAppAuthClient('enterprise',config.enterpriseID);
+var userclient = sdk.getAppAuthClient('user','13950271693');
 
 app.use(bodyparser.json({
     urlencoded:false
@@ -44,16 +47,38 @@ app.get("/convert",function(req,res){
 app.get("/getfile",function(req,res){
     if(req.query.fileid)
     {
-        var authorization_url = sdk.getAuthorizeURL({
-            response_type: 'code'
-        });
+        // let key = {
+        //     key: config.boxAppSettings.appAuth.privateKey,
+        //     passphrase: config.boxAppSettings.appAuth.passphrase
+        //   };
+        // let user_id = "13950271693";
 
-        // var client = sdk.getAppUserTokens("13950271693",null,function(err,response){
-        //     res.send(response);
-        // })
+        // let authenticationUrl = "https://api.box.com/oauth2/token";
+        // let claims = {
+        //     iss: config.boxAppSettings.clientID,
+        //     sub: user_id,
+        //     box_sub_type: "user",
+        //     aud: authenticationUrl,
+        //     jti: crypto.randomBytes(64).toString("hex"),
+        //     exp: Math.floor(Date.now() / 1000) + 45
+        //   };
 
-        //res.send(authorization_url);
-        // request.post('https://api.box.com/oauth2/token/',{headers:{"Content-Type":'application/x-www-form-urlencoded'},formData:{"client_id":config.client_id,'client_secret':config.client_secret,"grant_type":'authorization_code'}},function(err,response,body){
+        //   let keyId = config.boxAppSettings.appAuth.keyID;
+
+        //     let headers = {
+        //     'algorithm': 'RS512',
+        //     'keyid': keyId,
+        //     }
+
+        //     let assertion = jwt.sign(claims, key, headers);
+
+
+        // // var client = sdk.getAppUserTokens("13950271693",null,function(err,response){
+        // //     res.send(response);
+        // // })
+
+        // //res.send(authorization_url);
+        // request.post('https://api.box.com/oauth2/token/',{headers:{"Content-Type":'application/x-www-form-urlencoded'},formData:{"grant_type":'urn:ietf:params:oauth:grant-type:jwt-bearer',assertion,"client_id":config.boxAppSettings.clientID,"client_secret":config.boxAppSettings.clientSecret}},function(err,response,body){
         //     if(!err)
         //     {
         //         res.send(body);
@@ -69,8 +94,12 @@ app.get("/getfile",function(req,res){
         //     }
         //     res.send(stream);
         // })
+        // client.users.get('me',null).then(serviceAccount=>{
+        //     res.send(serviceAccount.login);
+        // })
 
-        client.files.getDownloadURL(req.query.fileid).then(downloadurl=>{
+        
+        userclient.files.getDownloadURL(req.query.fileid).then(downloadurl=>{
             res.redirect(downloadurl);
         }).catch(err=>res.send(err));
 
