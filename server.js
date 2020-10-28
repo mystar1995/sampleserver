@@ -111,6 +111,23 @@ app.get("/getfile",function(req,res){
     }
 })
 
+app.post('/uploadfile',async(req,res)=>{
+    var files = [];
+    for(let item in req.files )
+    {
+        files.push(await uploadfile(req.files[item]));
+    }
+
+    res.send(files);
+})
+
+function uploadfile(file)
+{
+    return new Promise((resolve,reject)=>{
+        userclient.files.uploadFile('123549414785',file.name,file).then(fileobj=>resolve(fileobj))
+    })
+}
+
 const httpserver = require('http').createServer(app);
 
 const io = require('socket.io')(httpserver);
