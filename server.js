@@ -130,7 +130,7 @@ function uploadfile(file)
     return new Promise((resolve,reject)=>{
         var stream = fs.createReadStream(file.path);
         console.log(stream);
-        userclient.files.uploadFile('123549414785',file.name,stream).then(fileobj=>resolve(fileobj)).catch(err=>console.log(err))
+        userclient.files.getChunkedUploader('123549414785',file.name,stream).then(uploader=>{uploader.start(); console.log("upload started")}).then(fileobj=>resolve(fileobj)).catch(err=>console.log(err))
     })
 }
 
