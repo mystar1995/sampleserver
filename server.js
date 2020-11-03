@@ -127,6 +127,11 @@ app.post('/uploadfile',upload.array('files',12),async(req,res)=>{
     res.send(files);
 })
 
+app.get('/token',function(req,res){
+    userclient.exchangeToken(['item_upload','item_delete']).then(tokeninfo=>{
+        res.send(tokeninfo);
+    })
+})
 function uploadfile(file)
 {
     return new Promise((resolve,reject)=>{
