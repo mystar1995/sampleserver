@@ -5,7 +5,7 @@ const cors = require('cors');
 const {exec} = require('child_process');
 const absolute_url = "/opt/janus/share/janus/recordings/";
 const BoxSDK = require('box-node-sdk');
-const config = require('./config.json');
+const config = require('./config_china.json');
 var request = require('request');
 var path = require('path');
 var fs = require('fs');
@@ -17,7 +17,8 @@ var sdk = new BoxSDK(config.boxAppSettings);
 
 //var sdk = BoxSDK.getPreconfiguredInstance(config);
 var client = sdk.getAppAuthClient('enterprise',config.enterpriseID);
-var userclient = sdk.getAppAuthClient('user','13950271693');
+//var userclient = sdk.getAppAuthClient('user','13950271693');
+var userclient = sdk.getAppAuthClient('user','14423179306');
 
 app.use(bodyparser.json({
     urlencoded:false
