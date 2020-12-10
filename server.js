@@ -176,6 +176,14 @@ io.on('connect',socket=>{
         console.log(data);
         io.emit('reactionchange',data);
     })
+
+    socket.on('sendmessage',function(msg){
+        io.emit('sendmessage',msg);
+    })
+
+    socket.on('addreaction',function(msgid){
+        io.emit('addreaction',msgid);
+    })
 })
 
 httpserver.listen(5000, () => {
